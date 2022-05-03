@@ -81,6 +81,7 @@ public class OctreeNode
         if (dividing == false)
         {
             containedObjects.Add(octObj);
+            children = null;
         }
     }
 
@@ -89,21 +90,27 @@ public class OctreeNode
         Gizmos.color = new Color(0, 1, 0);
         Gizmos.DrawWireCube(nodeBounds.center, nodeBounds.size);
 
+        Gizmos.color = new Color(1, 0, 0);
+        foreach (OctreeObject obj in containedObjects)
+        {
+            Gizmos.DrawCube(obj.bounds.center, obj.bounds.size);
+        }
+
         if (children != null)
         {
             for (int i = 0; i < 8; i++)
             {
                 if (children[i] != null)
-                { 
+                {
                     children[i].Draw();
                 }
             }
         }
-
-        //  Gizmos.color = new Color(1, 0, 0);
-        //  foreach (Bounds b in childBounds)
-        //  {
-        //      Gizmos.DrawWireCube(b.center, b.size);
-        //  }
+        else if (containedObjects.Count == 0)
+        {
+            // it's an empty leaf
+            Gizmos.color = new Color(0, 0, 1, 0.25f);
+            Gizmos.DrawCube(nodeBounds.center, nodeBounds.size);
+        }
     }
 }

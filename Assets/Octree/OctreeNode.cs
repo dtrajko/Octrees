@@ -71,7 +71,8 @@ public class OctreeNode
                 children[i] = new OctreeNode(childBounds[i], minSize);
             }
 
-            if (childBounds[i].Contains(octObj.bounds.min) && childBounds[i].Contains(octObj.bounds.max))
+            // if (childBounds[i].Contains(octObj.bounds.min) && childBounds[i].Contains(octObj.bounds.max))
+            if (childBounds[i].Intersects(octObj.bounds))
             {
                 dividing = true;
                 children[i].DivideAndAdd(go);
@@ -106,7 +107,7 @@ public class OctreeNode
                 }
             }
         }
-        else if (containedObjects.Count == 0)
+        else if (containedObjects.Count != 0)
         {
             // it's an empty leaf
             Gizmos.color = new Color(0, 0, 1, 0.25f);

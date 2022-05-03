@@ -23,6 +23,16 @@ public class Octree
         // boundsD = bounds;
 
         rootNode = new OctreeNode(bounds, minNodeSize);
+        AddObjects(worldObjects);
+    }
+
+    public void AddObjects(GameObject[] worldObjects)
+    {
+        foreach (GameObject go in worldObjects)
+        {
+            rootNode.AddObject(go);
+        }
+    
     }
 
 }

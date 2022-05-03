@@ -29,7 +29,7 @@ public class OctreeNode
 
         float quarter = nodeBounds.size.y / 4f;
         float childLength = nodeBounds.size.y / 2f;
-        Vector3 childSize = new Vector3(childLength, childLength, childLength);
+        Vector3 childSize = new Vector3(childLength, childLength, childLength) * 1.0f;
         childBounds = new Bounds[8];
         childBounds[0] = new Bounds(nodeBounds.center + new Vector3(-quarter,  quarter, -quarter), childSize);
         childBounds[1] = new Bounds(nodeBounds.center + new Vector3( quarter,  quarter, -quarter), childSize);

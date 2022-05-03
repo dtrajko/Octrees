@@ -23,8 +23,10 @@ public class CreateOctree : MonoBehaviour
     {
         if (Application.isPlaying)
         {
-            Gizmos.color = new Color(0, 1, 0);
-            Gizmos.DrawWireCube(ot.boundsD.center, ot.boundsD.size);
+            // Gizmos.color = new Color(0, 1, 0);
+            // Gizmos.DrawWireCube(ot.boundsD.center, ot.boundsD.size);
+
+            ot.rootNode.Draw();
         }
     }
 }

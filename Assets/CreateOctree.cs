@@ -5,12 +5,13 @@ using UnityEngine;
 public class CreateOctree : MonoBehaviour
 {
     public GameObject[] worldObjects;
+    public int nodeMinSize = 5;
     Octree ot;
 
     // Start is called before the first frame update
     void Start()
     {
-        ot = new Octree(worldObjects, 1);
+        ot = new Octree(worldObjects, nodeMinSize);
     }
 
     // Update is called once per frame

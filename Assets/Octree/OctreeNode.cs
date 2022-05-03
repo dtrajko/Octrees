@@ -39,6 +39,19 @@ public class OctreeNode
         childBounds[5] = new Bounds(nodeBounds.center + new Vector3( quarter, -quarter, -quarter), childSize);
         childBounds[6] = new Bounds(nodeBounds.center + new Vector3(-quarter, -quarter,  quarter), childSize);
         childBounds[7] = new Bounds(nodeBounds.center + new Vector3( quarter, -quarter,  quarter), childSize);
+
+        Divide();
+    }
+
+    public void Divide()
+    {
+        if (nodeBounds.size.y <= minSize) return;
+
+        children = new OctreeNode[8];
+        for (int i = 0; i < 8; i++)
+        {
+            children[i] = new OctreeNode(childBounds[i], minSize);
+        }
     }
 
     public void Draw()
@@ -46,9 +59,18 @@ public class OctreeNode
         Gizmos.color = new Color(0, 1, 0);
         Gizmos.DrawWireCube(nodeBounds.center, nodeBounds.size);
 
-        foreach (Bounds childBound in childBounds)
+        if (children != null)
         {
-            Gizmos.DrawWireCube(childBound.center, childBound.size);
+            for (int i = 0; i < 8; i++)
+            {
+                children[i].Draw();
+            }
         }
+
+        //  Gizmos.color = new Color(1, 0, 0);
+        //  foreach (Bounds b in childBounds)
+        //  {
+        //      Gizmos.DrawWireCube(b.center, b.size);
+        //  }
     }
 }

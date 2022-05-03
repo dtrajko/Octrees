@@ -345,6 +345,7 @@ MonoBehaviour:
   - {fileID: 408983682}
   - {fileID: 168286406}
   - {fileID: 1750553162}
+  nodeMinSize: 10
 --- !u!4 &706756092
 Transform:
   m_ObjectHideFlags: 0

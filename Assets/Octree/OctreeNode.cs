@@ -16,6 +16,7 @@ public struct OctreeObject
 
 public class OctreeNode
 {
+    public int id;
     Bounds nodeBounds;
     Bounds[] childBounds;
     public OctreeNode[] children = null;
@@ -26,6 +27,7 @@ public class OctreeNode
     {
         nodeBounds = b;
         minSize = minNodeSize;
+        id = Utils.id_number++;
 
         float quarter = nodeBounds.size.y / 4f;
         float childLength = nodeBounds.size.y / 2f;

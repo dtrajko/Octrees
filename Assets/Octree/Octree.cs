@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Octree
@@ -24,10 +25,11 @@ public class Octree
 
         // boundsD = bounds;
 
-        rootNode = new OctreeNode(bounds, minNodeSize);
+        rootNode = new OctreeNode(bounds, minNodeSize, null);
         AddObjects(worldObjects);
         GetEmptyLeaves(rootNode);
         ProcessExtraConnections();
+        Debug.Log("Edge: " + navigationGraph.edges.Count);
     }
 
     public void AddObjects(GameObject[] worldObjects)
@@ -69,18 +71,29 @@ public class Octree
 
     void ProcessExtraConnections()
     {
+        Dictionary<int, int> subGraphConnections = new Dictionary<int, int>();
+
         foreach (OctreeNode i in emptyLeaves)
         {
             foreach (OctreeNode j in emptyLeaves)
             {
-                if (i.id != j.id)
+                if (i.id != j.id && i.parent.id != j.parent.id)
                 {
                     RaycastHit hitInfo;
                     Vector3 direction = j.nodeBounds.center - i.nodeBounds.center;
                     float accuracy = 1;
                     if (!Physics.SphereCast(i.nodeBounds.center, accuracy, direction, out hitInfo))
                     {
-                        navigationGraph.AddEdge(i, j);
+                        try
+                        {
+                            subGraphConnections.Add(i.parent.id, j.parent.id);
+                            navigationGraph.AddEdge(i, j);
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Debug.Log(e.Message);
+                            //...
+                        }
                     }
                 }
             }

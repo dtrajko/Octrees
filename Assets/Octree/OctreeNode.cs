@@ -22,12 +22,14 @@ public class OctreeNode
     public OctreeNode[] children = null;
     float minSize;
     public List<OctreeObject> containedObjects = new List<OctreeObject>();
+    public OctreeNode parent;
 
-    public OctreeNode(Bounds b, float minNodeSize)
+    public OctreeNode(Bounds b, float minNodeSize, OctreeNode p)
     {
         nodeBounds = b;
         minSize = minNodeSize;
         id = Utils.id_number++;
+        parent = p;
 
         float quarter = nodeBounds.size.y / 4f;
         float childLength = nodeBounds.size.y / 2f;
@@ -70,7 +72,7 @@ public class OctreeNode
         {
             if (children[i] == null)
             {
-                children[i] = new OctreeNode(childBounds[i], minSize);
+                children[i] = new OctreeNode(childBounds[i], minSize, this);
             }
 
             // if (childBounds[i].Contains(octObj.bounds.min) && childBounds[i].Contains(octObj.bounds.max))

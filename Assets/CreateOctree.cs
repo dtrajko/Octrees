@@ -7,11 +7,13 @@ public class CreateOctree : MonoBehaviour
     public GameObject[] worldObjects;
     public int nodeMinSize = 5;
     Octree ot;
+    Graph waypoints;
 
     // Start is called before the first frame update
     void Start()
     {
-        ot = new Octree(worldObjects, nodeMinSize);
+        waypoints = new Graph();
+        ot = new Octree(worldObjects, nodeMinSize, waypoints);
     }
 
     // Update is called once per frame
@@ -24,10 +26,8 @@ public class CreateOctree : MonoBehaviour
     {
         if (Application.isPlaying)
         {
-            // Gizmos.color = new Color(0, 1, 0);
-            // Gizmos.DrawWireCube(ot.boundsD.center, ot.boundsD.size);
-
             ot.rootNode.Draw();
+            ot.navigationGraph.Draw();
         }
     }
 }

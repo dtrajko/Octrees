@@ -21,7 +21,7 @@ public class OctreeNode
     Bounds[] childBounds;
     public OctreeNode[] children = null;
     float minSize;
-    List<OctreeObject> containedObjects = new List<OctreeObject>();
+    public List<OctreeObject> containedObjects = new List<OctreeObject>();
 
     public OctreeNode(Bounds b, float minNodeSize)
     {

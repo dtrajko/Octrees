@@ -74,7 +74,8 @@ public class Graph
         for (int i = 0; i < nodes.Count; i++)
         {
             Gizmos.color = new Color(1, 1, 0);
-            Gizmos.DrawWireSphere(nodes[i].octreeNode.nodeBounds.center, 0.25f);
+            // Gizmos.DrawWireSphere(nodes[i].octreeNode.nodeBounds.center, nodes[i].octreeNode.nodeBounds.size.y / 2f);
+            Gizmos.DrawWireSphere(nodes[i].octreeNode.nodeBounds.center, 0.1f);
         }
     }
 

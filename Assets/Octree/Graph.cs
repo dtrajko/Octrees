@@ -22,6 +22,22 @@ public class Graph
         }
     }
 
+    public void AddEdge(OctreeNode fromNode, OctreeNode toNode)
+    {
+        Node from = findNode(fromNode.id);
+        Node to = findNode(toNode.id);
+
+        if (from != null && to != null)
+        {
+            Edge e = new Edge(from, to);
+            edges.Add(e);
+            from.edgeList.Add(e);
+            Edge f = new Edge(to, from);
+            edges.Add(f);
+            to.edgeList.Add(f);
+        }
+    }
+
     Node findNode(int otn_id)
     {
         foreach (Node n in nodes)
@@ -34,4 +50,32 @@ public class Graph
 
         return null;
     }
+
+    public int getPathLength()
+    {
+        return pathList.Count;
+    }
+
+    public OctreeNode getPathPoint(int index)
+    {
+        return pathList[index].octreeNode;
+    }
+
+    public void Draw()
+    {
+        for (int i = 0; i < edges.Count; i++)
+        {
+            Debug.DrawLine(
+                edges[i].startNode.octreeNode.nodeBounds.center,
+                edges[i].endNode.octreeNode.nodeBounds.center,
+                Color.red);
+        }
+
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            Gizmos.color = new Color(1, 1, 0);
+            Gizmos.DrawWireSphere(nodes[i].octreeNode.nodeBounds.center, 0.25f);
+        }
+    }
+
 }

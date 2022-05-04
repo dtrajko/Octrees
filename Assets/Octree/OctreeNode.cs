@@ -17,7 +17,7 @@ public struct OctreeObject
 public class OctreeNode
 {
     public int id;
-    Bounds nodeBounds;
+    public Bounds nodeBounds;
     Bounds[] childBounds;
     public OctreeNode[] children = null;
     float minSize;

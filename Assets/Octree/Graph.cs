@@ -6,7 +6,7 @@ public class Graph
 {
     public List<Edge> edges = new List<Edge>();
     public List<Node> nodes = new List<Node>();
-    List<Node> pathList = new List<Node>();
+    // List<Node> pathList = new List<Node>();
 
     public Graph()
     {
@@ -51,16 +51,6 @@ public class Graph
         return null;
     }
 
-    public int getPathLength()
-    {
-        return pathList.Count;
-    }
-
-    public OctreeNode getPathPoint(int index)
-    {
-        return pathList[index].octreeNode;
-    }
-
     public void Draw()
     {
         for (int i = 0; i < edges.Count; i++)
@@ -79,7 +69,7 @@ public class Graph
         }
     }
 
-    public bool AStar(OctreeNode startNode, OctreeNode endNode)
+    public bool AStar(OctreeNode startNode, OctreeNode endNode, List<Node> pathList)
     {
         pathList.Clear();
 
@@ -109,7 +99,7 @@ public class Graph
             Node thisnode = open[i];
             if (thisnode.octreeNode.id == endNode.id)
             {
-                reconstructPath(start, end);
+                reconstructPath(start, end, pathList);
                 return true;
             }
             open.RemoveAt(i);
@@ -155,7 +145,7 @@ public class Graph
         return false;
     }
 
-    public void reconstructPath(Node startId, Node endId)
+    public void reconstructPath(Node startId, Node endId, List<Node> pathList)
     {
         pathList.Clear();
         pathList.Add(endId);

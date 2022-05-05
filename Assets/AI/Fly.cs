@@ -32,30 +32,40 @@ public class Fly : MonoBehaviour
     void GetRandomDestination()
     {
         int randnode = Random.Range(0, graph.nodes.Count);
-        graph.AStar(graph.nodes[currentWP].octreeNode, graph.nodes[randnode].octreeNode);
+        graph.AStar(graph.nodes[currentWP].octreeNode, graph.nodes[randnode].octreeNode, pathList);
         currentWP = 0;
+    }
+
+    public int getPathLength()
+    {
+        return pathList.Count;
+    }
+
+    public OctreeNode getPathPoint(int index)
+    {
+        return pathList[index].octreeNode;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
         if (graph == null) return;
-        if (graph.getPathLength() == 0 || currentWP == graph.getPathLength())
+        if (getPathLength() == 0 || currentWP == getPathLength())
         {
             GetRandomDestination();
             return;
         }
 
-        if (Vector3.Distance(graph.getPathPoint(currentWP).nodeBounds.center,
+        if (Vector3.Distance(getPathPoint(currentWP).nodeBounds.center,
             this.transform.position) <= accuracy)
         {
             currentWP++;
         }
 
-        if (currentWP < graph.getPathLength())
+        if (currentWP < getPathLength())
         {
-            goal = graph.getPathPoint(currentWP).nodeBounds.center;
-            currentNode = graph.getPathPoint(currentWP);
+            goal = getPathPoint(currentWP).nodeBounds.center;
+            currentNode = getPathPoint(currentWP);
 
             Vector3 lookAtGoal = new Vector3(goal.x, goal.y, goal.z);
             Vector3 direction = lookAtGoal - this.transform.position;
@@ -67,7 +77,7 @@ public class Fly : MonoBehaviour
         else
         {
             GetRandomDestination();
-            if (graph.getPathLength() == 0)
+            if (getPathLength() == 0)
             {
                 Debug.Log("No Path");
             }

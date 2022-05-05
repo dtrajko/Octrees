@@ -7,7 +7,7 @@ public class CreateOctree : MonoBehaviour
     public GameObject[] worldObjects;
     public int nodeMinSize = 5;
     Octree ot;
-    Graph waypoints;
+    public Graph waypoints;
 
     // Start is called before the first frame update
     void Start()

@@ -14,6 +14,7 @@ public class Fly : MonoBehaviour
 
     public GameObject octree;
     Graph graph;
+    List<Node> pathList = new List<Node>();
 
     // Start is called before the first frame update
     void Start()

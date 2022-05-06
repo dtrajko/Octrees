@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FlyTo : MonoBehaviour
 {
-    float speed = 20.0f;
+    float speed = 10.0f;
     float accuracy = 1.0f;
     float rotSpeed = 15.0f;
 
@@ -63,6 +63,42 @@ public class FlyTo : MonoBehaviour
             }
             Node finalGoal = new Node(new OctreeNode(new Bounds(pos, new Vector3(1, 1, 1)), 1, null));
             NavigateTo(i, finalGoal);
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (graph == null) return;
+        if (getPathLength() == 0 || currentWP == getPathLength())
+        {
+            return;
+        }
+
+        if (Vector3.Distance(getPathPoint(currentWP).nodeBounds.center,
+            this.transform.position) <= accuracy)
+        {
+            currentWP++;
+        }
+
+        if (currentWP < getPathLength())
+        {
+            goal = getPathPoint(currentWP).nodeBounds.center;
+            Vector3 lookAtGoal = new Vector3(goal.x, goal.y, goal.z);
+            Vector3 direction = lookAtGoal - this.transform.position;
+
+            this.transform.rotation = Quaternion.Slerp(
+                this.transform.rotation,
+                Quaternion.LookRotation(direction),
+                Time.deltaTime * rotSpeed);
+
+            this.transform.Translate(0, 0, speed * Time.deltaTime);
+        }
+        else
+        {
+            if (getPathLength() == 0)
+            {
+                return;
+            }
         }
     }
 }

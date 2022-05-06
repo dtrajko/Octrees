@@ -27,6 +27,7 @@ public class Octree
         AddObjects(worldObjects);
         GetEmptyLeaves(rootNode);
         ConnectLeafNodeNeighbours();
+
         // ProcessExtraConnections();
         // Debug.Log("Edge: " + navigationGraph.edges.Count);
     }
@@ -57,13 +58,13 @@ public class Octree
             {
                 GetEmptyLeaves(node.children[i]);
 
-                for (int s = 0; s < 8; s++)
-                {
-                    if (s != i)
-                    {
-                        navigationGraph.AddEdge(node.children[i], node.children[s]);
-                    }
-                }
+                //  for (int s = 0; s < 8; s++)
+                //  {
+                //      if (s != i)
+                //      {
+                //          navigationGraph.AddEdge(node.children[i], node.children[s]);
+                //      }
+                //  }
             }
         }
     }
@@ -133,7 +134,12 @@ public class Octree
                     }
                 }
             }
-            Debug.Log("neighbours.Count: " + neighbours.Count);
+            // Debug.Log("neighbours.Count: " + neighbours.Count);
+
+            foreach (OctreeNode n in neighbours)
+            {
+                navigationGraph.AddEdge(emptyLeaves[i], n);
+            }
         }
     }
 }

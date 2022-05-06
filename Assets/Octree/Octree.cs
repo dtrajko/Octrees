@@ -20,16 +20,15 @@ public class Octree
         }
 
         float maxSize = Mathf.Max(new float[] { bounds.size.x, bounds.size.y, bounds.size.z });
-        Vector3 sizeVector = new Vector3(maxSize, maxSize, maxSize) * 0.5f;
+        Vector3 sizeVector = new Vector3(maxSize, maxSize, maxSize) * 1.0f;
         bounds.SetMinMax(bounds.center - sizeVector, bounds.center + sizeVector);
-
-        // boundsD = bounds;
 
         rootNode = new OctreeNode(bounds, minNodeSize, null);
         AddObjects(worldObjects);
         GetEmptyLeaves(rootNode);
-        ProcessExtraConnections();
-        Debug.Log("Edge: " + navigationGraph.edges.Count);
+        ConnectLeafNodeNeighbours();
+        // ProcessExtraConnections();
+        // Debug.Log("Edge: " + navigationGraph.edges.Count);
     }
 
     public void AddObjects(GameObject[] worldObjects)
@@ -97,6 +96,44 @@ public class Octree
                     }
                 }
             }
+        }
+    }
+
+    void ConnectLeafNodeNeighbours()
+    {
+        List<Vector3> rays = new List<Vector3>()
+        {
+            new Vector3( 1,  0,  0),
+            new Vector3(-1,  0,  0),
+            new Vector3( 0,  1,  0),
+            new Vector3( 0, -1,  0),
+            new Vector3( 0,  0,  1),
+            new Vector3( 0,  0, -1),
+        };
+
+        for (int i = 0; i < emptyLeaves.Count; i++)
+        {
+            List<OctreeNode> neighbours = new List<OctreeNode>();
+            for (int j = 0; j < emptyLeaves.Count; j++)
+            {
+                if (i != j)
+                {
+                    for (int r = 0; r < 6; r++)
+                    {
+                        Ray ray = new Ray(emptyLeaves[i].nodeBounds.center, rays[r]);
+                        float maxLength = emptyLeaves[i].nodeBounds.size.y / 2.0f + 0.01f;
+                        float hitLength;
+                        if (emptyLeaves[j].nodeBounds.IntersectRay(ray, out hitLength))
+                        {
+                            if (hitLength < maxLength)
+                            {
+                                neighbours.Add(emptyLeaves[j]);
+                            }
+                        }
+                    }
+                }
+            }
+            Debug.Log("neighbours.Count: " + neighbours.Count);
         }
     }
 }

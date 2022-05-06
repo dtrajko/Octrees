@@ -41,6 +41,28 @@ public class Octree
     
     }
 
+    public int FindBindingNode(OctreeNode node, Vector3 position)
+    {
+        int found = -1;
+        if (node == null) return -1;
+        if (node.children == null)
+        {
+            if (node.nodeBounds.Contains(position) && node.containedObjects.Count == 0)
+            {
+                return node.id;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                found = FindBindingNode(node.children[i], position);
+                if (found != -1) break;
+            }
+        }
+        return found;
+    }
+
     public void GetEmptyLeaves(OctreeNode node)
     {
         if (node == null) return;

@@ -41,6 +41,11 @@ public class Octree
     
     }
 
+    public int AddDestination(Vector3 destination)
+    {
+        return FindBindingNode(rootNode, destination);
+    }
+
     public int FindBindingNode(OctreeNode node, Vector3 position)
     {
         int found = -1;

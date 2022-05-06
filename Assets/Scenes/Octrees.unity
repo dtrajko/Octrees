@@ -1002,6 +1002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   octree: {fileID: 706756090}
+  goalPosition: {fileID: 1208745933}
 --- !u!1 &2064066750
 GameObject:
   m_ObjectHideFlags: 0

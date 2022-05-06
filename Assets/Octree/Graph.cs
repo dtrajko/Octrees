@@ -38,7 +38,7 @@ public class Graph
         }
     }
 
-    Node findNode(int otn_id)
+    public Node findNode(int otn_id)
     {
         foreach (Node n in nodes)
         {
